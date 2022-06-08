@@ -89,6 +89,8 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
+            let results = searchByTraits(people);
+            console.log(results);
             break;
         default:
             // Prompt user again. Another instance of recursion
@@ -204,23 +206,24 @@ function searchByTraits(people) {
             results = searchByGender(people);
             break;
         case "dob":
+            results = searchByDob(people);
             break;
         case "height":
+            results = searchByHeight(people);
             break;
         case "weight":
+            results = searchByWeight(people);
             break;
         case "eyeColor":
+            results = searchByEyeColor(people);
             break;
         case "occupation":
+            results = searchByOccupation(people);
             break;
         default:
             return searchByTraits(people);
     }
-
-    //     let results = people.filter(function (person) {
-    //         return true;
-    //     });
-    //     return results;
+    return results;
 }
 
 /**
@@ -265,8 +268,8 @@ function searchByDob(people) {
  * @returns {Array}          A collection of people objects
  */
 function searchByHeight(people) {
-    let userInput = prompt(
-        "Please enter the height in inches (numbers only): "
+    let userInput = parseInt(
+        prompt("Please enter the height in inches (numbers only): ")
     );
     let results = people.filter(function (element) {
         if (userInput === element.height) {
@@ -283,7 +286,9 @@ function searchByHeight(people) {
  * @returns {Array}          A collection of people objects
  */
 function searchByWeight(people) {
-    let userInput = prompt("Please enter the weight in pounds(numbers only): ");
+    let userInput = parseInt(
+        prompt("Please enter the weight in pounds(numbers only): ")
+    );
     let results = people.filter(function (element) {
         if (userInput === element.weight) {
             return true;
