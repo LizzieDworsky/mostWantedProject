@@ -241,3 +241,89 @@ function searchByGender(people) {
     });
     return results;
 }
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByDob(people) {
+    let userInput = prompt("Please enter the DOB using M/DD/YYYY format: ");
+    let results = people.filter(function (element) {
+        if (userInput === element.dob) {
+            return true;
+        }
+    });
+    return results;
+}
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByHeight(people) {
+    let userInput = prompt(
+        "Please enter the height in inches (numbers only): "
+    );
+    let results = people.filter(function (element) {
+        if (userInput === element.height) {
+            return true;
+        }
+    });
+    return results;
+}
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByWeight(people) {
+    let userInput = prompt("Please enter the weight in pounds(numbers only): ");
+    let results = people.filter(function (element) {
+        if (userInput === element.weight) {
+            return true;
+        }
+    });
+    return results;
+}
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByEyeColor(people) {
+    let userInput = prompt(
+        "Please enter an eye color to search by:\nbrown\nblack\nhazel\nblue\ngreen"
+    );
+    let results = people.filter(function (element) {
+        if (userInput === element.eyeColor) {
+            return true;
+        }
+    });
+    return results;
+}
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByOccupation(people) {
+    let userInput = prompt(
+        "Please enter the occupation(use lowercase only):\ndoctor\nassistant\npolitician\nnurse\nlandscaper\nprogrammer\narchitect\nstudent "
+    );
+    let results = people.filter(function (element) {
+        if (userInput === element.occupation) {
+            return true;
+        }
+    });
+    return results;
+}
