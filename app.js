@@ -30,7 +30,7 @@ function app(people) {
             break;
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
-                //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
+            //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             searchResults = searchByTraits(people);
             break;
         default:
@@ -88,6 +88,8 @@ function mainMenu(person, people) {
         case "quit":
             // Stop application execution
             return;
+        case "test":
+            break;
         default:
             // Prompt user again. Another instance of recursion
             return mainMenu(person, people);
@@ -184,3 +186,58 @@ function chars(input) {
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
+
+/**
+ * This function will take in user input in order to filter
+ * the people data set down to a smaller collection of objects
+ * that match the user's query.
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByTraits(people) {
+    let userIntput = prompt(
+        "Please enter what specific trait you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
+    );
+    let results;
+    switch (userIntput) {
+        case "gender":
+            results = searchByGender(people);
+            break;
+        case "dob":
+            break;
+        case "height":
+            break;
+        case "weight":
+            break;
+        case "eyeColor":
+            break;
+        case "occupation":
+            break;
+        default:
+            return searchByTraits(people);
+    }
+
+    //     let results = people.filter(function (person) {
+    //         return true;
+    //     });
+    //     return results;
+}
+
+/**
+ * This function takes in a collection of people-objects
+ * inside the array and returns a collection of people-objects
+ * that match the requested gender by the user
+ * @param {Array} people     A collection of people objects
+ * @returns {Array}          A collection of people objects
+ */
+function searchByGender(people) {
+    let userInput = prompt(
+        "Please select a gender to search by:\nmale\nfemale"
+    );
+    let results = people.filter(function (element) {
+        if (userInput === element.gender) {
+            return true;
+        }
+    });
+    return results;
+}
