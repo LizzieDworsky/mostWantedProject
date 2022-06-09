@@ -64,8 +64,6 @@ function mainMenu(person, people) {
     // Routes our application based on the user's input
     switch (displayOption) {
         case "info":
-            //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
-            // HINT: Look for a person-object stringifier utility function to help
             let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
@@ -73,7 +71,7 @@ function mainMenu(person, people) {
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
-            alert(personFamily);
+            displayPeople(personFamily);
             break;
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
@@ -89,8 +87,8 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = displayPerson(person[0]);
-            console.log(results);
+            let results = findPersonFamily(person[0], people);
+            displayPeople(results);
             break;
         default:
             // Prompt user again. Another instance of recursion
@@ -232,7 +230,6 @@ function searchByTraits(people) {
     }
     return results;
 }
-
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
@@ -337,5 +334,27 @@ function searchByOccupation(people) {
             return true;
         }
     });
+    return results;
+}
+// End of Search by Traits functions (7 total)
+
+/**
+ *
+ */
+function findPersonFamily(person, people) {
+    let results = [];
+    let spouseId = person.currentSpouse;
+    let parents = person.parents;
+    if (spouseId !== null) {
+        let spouseObj = people.find(function (element) {
+            if (spouseId === element.id) {
+                return true;
+            }
+        });
+        results.push(spouseObj);
+    }
+    if (!parents[0]) {
+        return results;
+    }
     return results;
 }
