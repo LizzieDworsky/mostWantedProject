@@ -344,7 +344,7 @@ function searchByOccupation(people) {
 function findPersonFamily(person, people) {
     let results = [];
     let spouseId = person.currentSpouse;
-    let parents = person.parents;
+    let parentsId = person.parents;
     if (spouseId !== null) {
         let spouseObj = people.find(function (element) {
             if (spouseId === element.id) {
@@ -353,8 +353,17 @@ function findPersonFamily(person, people) {
         });
         results.push(spouseObj);
     }
-    if (!parents[0]) {
+    if (!parentsId[0]) {
         return results;
+    } else {
+        let parentsArr = people.filter(function (element) {
+            if (parentsId[0] === element.id || parentsId[1] === element.id) {
+                return true;
+            }
+        });
+        let parentOne = parentsArr[0];
+        let parentTwo = parentsArr[1];
+        results.push(parentOne, parentTwo);
     }
     return results;
 }
