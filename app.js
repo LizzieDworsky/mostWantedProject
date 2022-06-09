@@ -355,15 +355,23 @@ function findPersonFamily(person, people) {
     }
     if (!parentsId[0]) {
         return results;
-    } else {
-        let parentsArr = people.filter(function (element) {
-            if (parentsId[0] === element.id || parentsId[1] === element.id) {
-                return true;
-            }
-        });
-        let parentOne = parentsArr[0];
-        let parentTwo = parentsArr[1];
-        results.push(parentOne, parentTwo);
     }
+    let parentsArr = people.filter(function (element) {
+        if (parentsId[0] === element.id || parentsId[1] === element.id) {
+            return true;
+        }
+    });
+    results = results.concat(parentsArr);
+    // Need to find siblings now.
+    let siblingsArr = people.filter(function (element) {
+        if (
+            person.id !== element.id &&
+            (element.parents.includes(parentsId[0]) ||
+                element.parents.includes(parentsId[1]))
+        ) {
+            return true;
+        }
+    });
+    results = results.concat(siblingsArr);
     return results;
 }
