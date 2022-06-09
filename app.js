@@ -89,7 +89,7 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = searchByTraits(people);
+            let results = displayPerson(person[0]);
             console.log(results);
             break;
         default:
@@ -140,12 +140,19 @@ function displayPeople(people) {
  * This function will be useful for STRINGIFYING a person-object's properties
  * in order to easily send the information to the user in the form of an alert().
  * @param {Object} person       A singular object.
+ * @returns {string}            A string of person's information.
  */
 function displayPerson(person) {
-    let personInfo = `First Name: ${person.firstName}\n`;
-    personInfo += `Last Name: ${person.lastName}\n`;
-    //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
-    alert(personInfo);
+    let personInfo = "";
+    for (let property in person) {
+        if (property === "parents" || property === "currentSpouse") {
+            continue;
+        }
+        personInfo += `${property}: ${person[property]}\n`;
+    }
+    // let personInfo = `First Name: ${person.firstName}\n`;
+    // personInfo += `Last Name: ${person.lastName}\n`;
+    return personInfo;
 }
 // End of displayPerson()
 
