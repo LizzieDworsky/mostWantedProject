@@ -318,16 +318,35 @@ function searchByWeight(people) {
  * @returns {Array}          A collection of people objects
  */
 function searchByEyeColor(people) {
+    let results;
     let userInput = prompt(
         "Please enter an eye color to search by:\nbrown\nblack\nhazel\nblue\ngreen"
     );
-    let results = people.filter(function (element) {
-        if (userInput === element.eyeColor) {
-            return true;
-        }
-    });
+    let confirmation = eyeColorValid(userInput);
+    if (!confirmation) {
+        alert(`Sorry ${userInput} is not a valid option. Please try again.`);
+        results = searchByEyeColor(people);
+    } else {
+        results = people.filter(function (element) {
+            if (userInput === element.eyeColor) {
+                return true;
+            }
+        });
+    }
     return results;
 }
+function eyeColorValid(userInput) {
+    if (
+        userInput === "brown" ||
+        userInput === "black" ||
+        userInput === "hazel" ||
+        userInput === "blue" ||
+        userInput === "green"
+    ) {
+        return true;
+    }
+}
+
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
