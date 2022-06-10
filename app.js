@@ -71,7 +71,7 @@ function mainMenu(person, people) {
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
-            displayPeople(personFamily);
+            alert(personFamily);
             break;
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
@@ -87,8 +87,8 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = findPersonFamily(person[0], people);
-            displayPeople(results);
+            let results = findPersonFamily(person, people);
+            console.log(results);
             break;
         default:
             // Prompt user again. Another instance of recursion
@@ -338,31 +338,68 @@ function searchByOccupation(people) {
 }
 // End of Search by Traits functions (7 total)
 
-/**
- *
- */
 function findPersonFamily(person, people) {
-    let results = [];
+    let results = "";
     let spouseId = person.currentSpouse;
     let parentsId = person.parents;
     if (spouseId !== null) {
-        let spouseObj = people.find(function (element) {
-            if (spouseId === element.id) {
-                return true;
-            }
-        });
-        results.push(spouseObj);
+        results += findSpouse(people, spouseId);
     }
-    if (!parentsId[0]) {
+    if (!parentsId) {
         return results;
     }
+    results += findParents(parentsId, people);
+    results += findSiblings(person, parentsId, people);
+    return results;
+}
+/**
+ * This function takes in a collection of people objects
+ * and the Spouse ID used to find the appropriate object.
+ * It returns a string with the relationship, first, and last name.
+ * @param {Array} people
+ * @param {Number} spouseId
+ * @returns {String}
+ */
+function findSpouse(people, spouseId) {
+    let spouseObj = people.find(function (element) {
+        if (spouseId === element.id) return true;
+    });
+    let spouse = `Spouse: ${spouseObj.firstName} ${spouseObj.lastName}\n`;
+    return spouse;
+}
+
+/**
+ * This function takes in a collection of people objects
+ * and the Parents ID used to filter the collection.
+ * It returns a string with the relationship, first, and last names.
+ * @param {Array} parentsId
+ * @param {Array} people
+ * @returns {String}
+ */
+function findParents(parentsId, people) {
     let parentsArr = people.filter(function (element) {
         if (parentsId[0] === element.id || parentsId[1] === element.id) {
             return true;
         }
     });
-    results = results.concat(parentsArr);
-    // Need to find siblings now.
+    let parents = parentsArr
+        .map(function (person) {
+            return `Parent: ${person.firstName} ${person.lastName}`;
+        })
+        .join("\n");
+    return parents;
+}
+
+/**
+ * This function takes in a collection of people objects,
+ * the Parents ID, and the person used to filter the collection.
+ * It returns a string with the relationship, first, and last names.
+ * @param {Array} person
+ * @param {Array} parentsId
+ * @param {Array} people
+ * @returns {String}
+ */
+function findSiblings(person, parentsId, people) {
     let siblingsArr = people.filter(function (element) {
         if (
             person.id !== element.id &&
@@ -372,6 +409,8 @@ function findPersonFamily(person, people) {
             return true;
         }
     });
-    results = results.concat(siblingsArr);
-    return results;
+    let siblings = siblingsArr.map(function (person) {
+        return `\nSibling: ${person.firstName} ${person.lastName}`;
+    });
+    return siblings;
 }
