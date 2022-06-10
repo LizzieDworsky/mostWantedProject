@@ -251,7 +251,7 @@ function searchByGender(people) {
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
- * that match the requested gender by the user
+ * that match the requested DOB by the user
  * @param {Array} people     A collection of people objects
  * @returns {Array}          A collection of people objects
  */
@@ -267,7 +267,7 @@ function searchByDob(people) {
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
- * that match the requested gender by the user
+ * that match the requested height by the user
  * @param {Array} people     A collection of people objects
  * @returns {Array}          A collection of people objects
  */
@@ -285,7 +285,7 @@ function searchByHeight(people) {
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
- * that match the requested gender by the user
+ * that match the requested weight by the user
  * @param {Array} people     A collection of people objects
  * @returns {Array}          A collection of people objects
  */
@@ -303,7 +303,7 @@ function searchByWeight(people) {
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
- * that match the requested gender by the user
+ * that match the requested eye color by the user
  * @param {Array} people     A collection of people objects
  * @returns {Array}          A collection of people objects
  */
@@ -321,7 +321,7 @@ function searchByEyeColor(people) {
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
- * that match the requested gender by the user
+ * that match the requested occupation by the user
  * @param {Array} people     A collection of people objects
  * @returns {Array}          A collection of people objects
  */
@@ -338,6 +338,14 @@ function searchByOccupation(people) {
 }
 // End of Search by Traits functions (7 total)
 
+/**
+ * This function takes in a collection of people objects
+ * and a single person object for filtering and finding family members.
+ * It returns a string concated with the relationships, first, and last names.
+ * @param {Object} person
+ * @param {Array} people
+ * @returns {String}
+ */
 function findPersonFamily(person, people) {
     let results = "";
     let spouseId = person.currentSpouse;
@@ -414,3 +422,4 @@ function findSiblings(person, parentsId, people) {
     });
     return siblings;
 }
+// End of Finding Family functions (4 total)
