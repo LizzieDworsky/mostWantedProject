@@ -248,15 +248,27 @@ function searchByTraits(people, userInput = null) {
  * @returns {Array}          A collection of people objects
  */
 function searchByGender(people) {
+    let results;
     let userInput = prompt(
         "Please select a gender to search by:\nmale\nfemale"
     );
-    let results = people.filter(function (element) {
-        if (userInput === element.gender) {
-            return true;
-        }
-    });
+    let confirmation = genderValid(userInput);
+    if (!confirmation) {
+        alert(`Sorry ${userInput} is not a valid option. Please try again.`);
+        results = searchByGender(people);
+    } else {
+        results = people.filter(function (element) {
+            if (userInput === element.gender) {
+                return true;
+            }
+        });
+    }
     return results;
+}
+function genderValid(userInput) {
+    if (userInput === "male" || userInput === "female") {
+        return true;
+    }
 }
 /**
  * This function takes in a collection of people-objects
