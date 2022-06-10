@@ -85,11 +85,23 @@ function mainMenu(person, people) {
             break;
         case "family":
             let personFamily = findPersonFamily(person[0], people);
-            alert(personFamily);
+            if (personFamily === "") {
+                alert(
+                    `${person[0].firstName} ${person[0].lastName} does not currently have a spouse, parents, or siblings.`
+                );
+            } else {
+                alert(personFamily);
+            }
             break;
         case "descendants":
             let personDescendants = findPersonDescendants(person[0], people);
-            displayPeople(personDescendants);
+            if (!personDescendants[0]) {
+                alert(
+                    `${person[0].firstName} ${person[0].lastName} does not currenly have descendants.`
+                );
+            } else {
+                displayPeople(personDescendants);
+            }
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -436,6 +448,15 @@ function findSiblings(person, parentsId, people) {
 }
 // End of Finding Family functions (4 total)
 
+/**
+ * This function takes in a collection of people
+ * and a person, used to filter recusively through the collection
+ * to find all the descendants of the original person.
+ * It returns an array with the descendants.
+ * @param {Object} person
+ * @param {Array} people
+ * @returns {Array}
+ */
 function findPersonDescendants(person, people) {
     // Descendants need to be found through who includes person's ID in their parent array
     // Then needs to resursively check to see if that child's ID is in anyone's parent array
