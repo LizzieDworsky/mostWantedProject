@@ -29,7 +29,7 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
-            traitSortSelection(people);
+            searchResults = traitSortSelection(people);
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -466,30 +466,35 @@ function findPersonDescendants(person, people) {
 // End of Finding Descendants function
 
 function traitSortSelection(people) {
+    let results = [];
     let userPref = promptFor(
         "Would you like to search by one trait at a time or multiple? Enter 'one' or 'multiple'",
         oneMultiple
     ).toLowerCase();
     switch (userPref) {
         case "one":
-            oneTraitSort(people);
-            app(people);
+            results = oneTraitSort(people);
             break;
         case "multiple":
-            let results = multipleTraitSort(people);
+            results = multipleTraitSort(people);
             if (!results[0]) {
                 alert(
                     "Sorry, but we were unable to find anyone who matched that criteria. Please try again."
                 );
                 app(people);
             }
+            alert("Here are your results:");
             displayPeople(results);
-            app(people);
             break;
         default:
             alert("There seems to be an error. Lets try this again.");
-            app(people);
+            traitSortSelection(people);
             break;
+    }
+    if (results[0] && results[1]) {
+        app(people);
+    } else {
+        return results;
     }
 }
 
@@ -498,7 +503,7 @@ function oneMultiple(input) {
 }
 
 function oneTraitSort(people) {
-    searchResults = searchByTraits(people);
+    let searchResults = searchByTraits(people);
     alert("Here's what we found:");
     displayPeople(searchResults);
     let traitsSearch = promptFor(
@@ -515,6 +520,7 @@ function oneTraitSort(people) {
             yesNo
         );
     }
+    return searchResults;
 }
 
 function multipleTraitSort(people) {
