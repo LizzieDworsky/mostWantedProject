@@ -235,6 +235,7 @@ function searchByTraits(people, userInput = null) {
             results = searchByOccupation(people);
             break;
         default:
+            alert(`The trait ${userInput} doesn't seem to be an available.`);
             return searchByTraits(people);
     }
     return results;
@@ -529,11 +530,19 @@ function multipleTraitSort(people) {
         "Please enter what traits you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
     );
     let traitsArr = iterateOverString(userInput);
-    let currentTrait = traitsArr.pop();
-    searchResults = searchResults.concat(searchByTraits(people, currentTrait));
-    while (traitsArr[0]) {
-        currentTrait = traitsArr.pop();
-        searchResults = searchByTraits(searchResults, currentTrait);
+    let confirmation = validTraitArray(traitsArr);
+    if (!confirmation) {
+        alert("Sorry there was an error with the input. Please try again.");
+        searchResults = multipleTraitSort(people);
+    } else {
+        let currentTrait = traitsArr.pop();
+        searchResults = searchResults.concat(
+            searchByTraits(people, currentTrait)
+        );
+        while (traitsArr[0]) {
+            currentTrait = traitsArr.pop();
+            searchResults = searchByTraits(searchResults, currentTrait);
+        }
     }
     return searchResults;
 }
@@ -551,4 +560,19 @@ function iterateOverString(string) {
     }
     traitsArr.push(currentTrait);
     return traitsArr;
+}
+// End of Trait Sorting functions (5 total)
+
+function validTraitArray(traitsArr) {
+    if (
+        traitsArr.includes("gender") ||
+        traitsArr.includes("dob") ||
+        traitsArr.includes("dob") ||
+        traitsArr.includes("height") ||
+        traitsArr.includes("weight") ||
+        traitsArr.includes("eyeColor") ||
+        traitsArr.includes("occupation")
+    ) {
+        return true;
+    }
 }
