@@ -29,25 +29,7 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
-            searchResults = searchByTraits(people);
-            alert("Here's what we found:");
-            displayPeople(searchResults);
-            let traitsSearch = promptFor(
-                "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
-                yesNo
-            );
-            // A while function was the simplest way I could think of to iterate over the search criteria based on user preference.
-            while (traitsSearch === "yes") {
-                searchResults = searchByTraits(searchResults);
-                alert("Here's what we found:");
-                displayPeople(searchResults);
-                traitsSearch = promptFor(
-                    "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
-                    yesNo
-                );
-            }
-            // In the future I'd like to add a selection method from here, so the user doesn't have to enter the name.
-            app(people);
+            traitSortSelection(people);
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -111,7 +93,7 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = iterateOverString("hello world");
+            let results = multipleTraitSort(people);
             console.log(results);
             break;
         default:
@@ -223,14 +205,17 @@ function chars(input) {
  * the people data set down to a smaller collection of objects
  * that match the user's query.
  * @param {Array} people     A collection of people objects
+ * @param {}
  * @returns {Array}          A collection of people objects
  */
-function searchByTraits(people) {
-    let userIntput = prompt(
-        "Please enter what specific trait you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
-    );
+function searchByTraits(people, userInput = null) {
+    if (userInput === null) {
+        userInput = prompt(
+            "Please enter what specific trait you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
+        );
+    }
     let results;
-    switch (userIntput) {
+    switch (userInput) {
         case "gender":
             results = searchByGender(people);
             break;
@@ -491,12 +476,25 @@ function traitSortSelection(people) {
             app(people);
             break;
         case "multiple":
+            let results = multipleTraitSort(people);
+            if (!results[0]) {
+                alert(
+                    "Sorry, but we were unable to find anyone who matched that criteria. Please try again."
+                );
+                app(people);
+            }
+            displayPeople(results);
+            app(people);
             break;
         default:
             alert("There seems to be an error. Lets try this again.");
             app(people);
             break;
     }
+}
+
+function oneMultiple(input) {
+    return input.toLowerCase() === "one" || input.toLowerCase() === "multiple";
 }
 
 function oneTraitSort(people) {
@@ -520,34 +518,18 @@ function oneTraitSort(people) {
 }
 
 function multipleTraitSort(people) {
+    let searchResults = [];
     let userInput = prompt(
         "Please enter what traits you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
     );
     let traitsArr = iterateOverString(userInput);
-
-    switch (userInput) {
-        case "gender":
-            results = searchByGender(people);
-            break;
-        case "dob":
-            results = searchByDob(people);
-            break;
-        case "height":
-            results = searchByHeight(people);
-            break;
-        case "weight":
-            results = searchByWeight(people);
-            break;
-        case "eyeColor":
-            results = searchByEyeColor(people);
-            break;
-        case "occupation":
-            results = searchByOccupation(people);
-            break;
-        default:
-            return searchByTraits(people);
+    let currentTrait = traitsArr.pop();
+    searchResults = searchResults.concat(searchByTraits(people, currentTrait));
+    while (traitsArr[0]) {
+        currentTrait = traitsArr.pop();
+        searchResults = searchByTraits(searchResults, currentTrait);
     }
-    return results;
+    return searchResults;
 }
 
 function iterateOverString(string) {
