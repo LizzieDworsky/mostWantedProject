@@ -111,7 +111,7 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = findPersonDescendants(person[0], people);
+            let results = iterateOverString("hello world");
             console.log(results);
             break;
         default:
@@ -477,4 +477,90 @@ function findPersonDescendants(person, people) {
         );
     }
     return descendantsArray;
+}
+// End of Finding Descendants function
+
+function traitSortSelection(people) {
+    let userPref = promptFor(
+        "Would you like to search by one trait at a time or multiple? Enter 'one' or 'multiple'",
+        oneMultiple
+    ).toLowerCase();
+    switch (userPref) {
+        case "one":
+            oneTraitSort(people);
+            app(people);
+            break;
+        case "multiple":
+            break;
+        default:
+            alert("There seems to be an error. Lets try this again.");
+            app(people);
+            break;
+    }
+}
+
+function oneTraitSort(people) {
+    searchResults = searchByTraits(people);
+    alert("Here's what we found:");
+    displayPeople(searchResults);
+    let traitsSearch = promptFor(
+        "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
+        yesNo
+    );
+    // A while function was the simplest way I could think of to iterate over the search criteria based on user preference.
+    while (traitsSearch === "yes") {
+        searchResults = searchByTraits(searchResults);
+        alert("Here's what we found:");
+        displayPeople(searchResults);
+        traitsSearch = promptFor(
+            "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
+            yesNo
+        );
+    }
+}
+
+function multipleTraitSort(people) {
+    let userInput = prompt(
+        "Please enter what traits you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
+    );
+    let traitsArr = iterateOverString(userInput);
+
+    switch (userInput) {
+        case "gender":
+            results = searchByGender(people);
+            break;
+        case "dob":
+            results = searchByDob(people);
+            break;
+        case "height":
+            results = searchByHeight(people);
+            break;
+        case "weight":
+            results = searchByWeight(people);
+            break;
+        case "eyeColor":
+            results = searchByEyeColor(people);
+            break;
+        case "occupation":
+            results = searchByOccupation(people);
+            break;
+        default:
+            return searchByTraits(people);
+    }
+    return results;
+}
+
+function iterateOverString(string) {
+    let traitsArr = [];
+    let currentTrait = "";
+    for (let index = 0; index < string.length; index++) {
+        if (string[index] === " ") {
+            traitsArr.push(currentTrait);
+            currentTrait = "";
+        } else {
+            currentTrait += string[index];
+        }
+    }
+    traitsArr.push(currentTrait);
+    return traitsArr;
 }
