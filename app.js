@@ -336,15 +336,36 @@ function searchByEyeColor(people) {
  * @returns {Array}          A collection of people objects
  */
 function searchByOccupation(people) {
+    let results;
     let userInput = prompt(
         "Please enter the occupation(use lowercase only):\ndoctor\nassistant\npolitician\nnurse\nlandscaper\nprogrammer\narchitect\nstudent "
     );
-    let results = people.filter(function (element) {
-        if (userInput === element.occupation) {
-            return true;
-        }
-    });
+    let confirmation = occupationValid(userInput);
+    if (!confirmation) {
+        alert(`Sorry ${userInput} is not a valid option. Please try again.`);
+        results = searchByOccupation(people);
+    } else {
+        results = people.filter(function (element) {
+            if (userInput === element.occupation) {
+                return true;
+            }
+        });
+    }
     return results;
+}
+function occupationValid(userInput) {
+    if (
+        userInput === "doctor" ||
+        userInput === "assistant" ||
+        userInput === "politician" ||
+        userInput === "nurse" ||
+        userInput === "landscaper" ||
+        userInput === "programmer" ||
+        userInput === "architect" ||
+        userInput === "student"
+    ) {
+        return true;
+    }
 }
 // End of Search by Traits functions (7 total)
 
