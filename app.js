@@ -32,7 +32,11 @@ function app(people) {
             searchResults = searchByTraits(people);
             alert("Here's what we found:");
             displayPeople(searchResults);
-            let traitsSearch = "yes";
+            let traitsSearch = promptFor(
+                "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
+                yesNo
+            );
+            // A while function was the simplest way I could think of to iterate over the search criteria based on user preference.
             while (traitsSearch === "yes") {
                 searchResults = searchByTraits(searchResults);
                 alert("Here's what we found:");
@@ -42,6 +46,7 @@ function app(people) {
                     yesNo
                 );
             }
+            // In the future I'd like to add a selection method from here, so the user doesn't have to enter the name.
             app(people);
             break;
         default:
@@ -96,7 +101,7 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = findPersonFamily(person[0], people);
+            let results = findPersonDescendants(person[0], people);
             console.log(results);
             break;
         default:
@@ -362,7 +367,7 @@ function findPersonFamily(person, people) {
     if (spouseId !== null) {
         results += findSpouse(people, spouseId);
     }
-    if (!parentsId) {
+    if (!parentsId[0]) {
         return results;
     }
     results += findParents(parentsId, people);
@@ -432,3 +437,21 @@ function findSiblings(person, parentsId, people) {
     return siblings;
 }
 // End of Finding Family functions (4 total)
+
+function findPersonDescendants(person, people) {
+    // Descendants need to be found through who includes person's ID in their parent array
+    // Then needs to resursively check to see if that child's ID is in anyone's parent array
+    // Have to have a check, where if the person's ID is not in a parent array,
+    // it returns until we get to the top level.
+    let descendantsArray = [];
+    let currentChildren = people.filter(function (element) {
+        if (element.parents.includes(person.id)) {
+            return true;
+        }
+    });
+    if (!currentChildren[0]) {
+        return descendantsArray;
+    }
+    descendantsArray = descendantsArray.concat(currentChildren);
+    return descendantsArray;
+}
