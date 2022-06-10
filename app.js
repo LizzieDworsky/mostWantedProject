@@ -88,10 +88,8 @@ function mainMenu(person, people) {
             alert(personFamily);
             break;
         case "descendants":
-            //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
-            // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
-            alert(personDescendants);
+            displayPeople(personDescendants);
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -443,15 +441,19 @@ function findPersonDescendants(person, people) {
     // Then needs to resursively check to see if that child's ID is in anyone's parent array
     // Have to have a check, where if the person's ID is not in a parent array,
     // it returns until we get to the top level.
-    let descendantsArray = [];
     let currentChildren = people.filter(function (element) {
         if (element.parents.includes(person.id)) {
             return true;
         }
     });
+    let descendantsArray = currentChildren;
     if (!currentChildren[0]) {
         return descendantsArray;
     }
-    descendantsArray = descendantsArray.concat(currentChildren);
+    for (let i = 0; i < currentChildren.length; i++) {
+        descendantsArray = descendantsArray.concat(
+            findPersonDescendants(currentChildren[i], people)
+        );
+    }
     return descendantsArray;
 }
