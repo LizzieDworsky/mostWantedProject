@@ -29,9 +29,20 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
-            //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
-            //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             searchResults = searchByTraits(people);
+            alert("Here's what we found:");
+            displayPeople(searchResults);
+            let traitsSearch = "yes";
+            while (traitsSearch === "yes") {
+                searchResults = searchByTraits(searchResults);
+                alert("Here's what we found:");
+                displayPeople(searchResults);
+                traitsSearch = promptFor(
+                    "Would You like to continue narrow your search by additional traits? Enter 'yes' or 'no'",
+                    yesNo
+                );
+            }
+            app(people);
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -68,8 +79,6 @@ function mainMenu(person, people) {
             alert(personInfo);
             break;
         case "family":
-            //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
-            // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
             alert(personFamily);
             break;
@@ -87,7 +96,7 @@ function mainMenu(person, people) {
             // Stop application execution
             return;
         case "test":
-            let results = findPersonFamily(person, people);
+            let results = findPersonFamily(person[0], people);
             console.log(results);
             break;
         default:
