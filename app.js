@@ -190,17 +190,10 @@ function yesNo(input) {
  * This helper function operates as a default callback for promptFor's validation.
  * Feel free to modify this to suit your needs.
  * @param {String} input        A string.
- * @returns {Boolean}           Default validation -- no logic yet.
+ * @returns {Boolean}           Confirms capital front
  */
-function traitValid(input) {
-    if (
-        input === "gender" ||
-        input === "dob" ||
-        input === "height" ||
-        input === "weight" ||
-        input === "eyeColor" ||
-        input === "occupation"
-    ) {
+function chars(input) {
+    if (input.charAt(0) === input.charAt(0).toUpperCase()) {
         return true;
     }
 }
@@ -257,6 +250,19 @@ function searchByTraits(people, userInput = null) {
     }
     return results;
 }
+function traitValid(input) {
+    if (
+        input === "gender" ||
+        input === "dob" ||
+        input === "height" ||
+        input === "weight" ||
+        input === "eyeColor" ||
+        input === "occupation"
+    ) {
+        return true;
+    }
+}
+
 /**
  * This function takes in a collection of people-objects
  * inside the array and returns a collection of people-objects
