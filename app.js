@@ -192,8 +192,17 @@ function yesNo(input) {
  * @param {String} input        A string.
  * @returns {Boolean}           Default validation -- no logic yet.
  */
-function chars(input) {
-    return true; // Default validation only
+function traitValid(input) {
+    if (
+        input === "gender" ||
+        input === "dob" ||
+        input === "height" ||
+        input === "weight" ||
+        input === "eyeColor" ||
+        input === "occupation"
+    ) {
+        return true;
+    }
 }
 // End of chars()
 
@@ -213,6 +222,11 @@ function searchByTraits(people, userInput = null) {
         userInput = prompt(
             "Please enter what specific trait you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
         );
+        let confirmation = traitValid(userInput);
+        if (!confirmation) {
+            alert(`Sorry ${userInput} is not a valid trait. Please try again.`);
+            userInput = searchByTraits(people);
+        }
     }
     let results;
     switch (userInput) {
@@ -544,6 +558,10 @@ function traitSortSelection(people) {
             traitSortSelection(people);
             break;
     }
+    // (10 points): As a user, I want to be able to look up someone’s information after I find
+    // them with the program (display values for the various traits of the found person).
+    // if a single person is returned, the value gets returned and the user can immediately look them up,
+    // otherwise, the app is restarted.
     if (results[0] && results[1]) {
         app(people);
     } else {
