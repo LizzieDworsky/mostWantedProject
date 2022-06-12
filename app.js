@@ -218,39 +218,42 @@ function traitValid(input) {
  * @returns {Array}          A collection of people objects
  */
 function searchByTraits(people, userInput = null) {
+    let results;
     if (userInput === null) {
         userInput = prompt(
             "Please enter what specific trait you would like to search by:\ngender\ndob\nheight\nweight\neyeColor\noccupation."
         );
-        let confirmation = traitValid(userInput);
-        if (!confirmation) {
-            alert(`Sorry ${userInput} is not a valid trait. Please try again.`);
-            userInput = searchByTraits(people);
-        }
     }
-    let results;
-    switch (userInput) {
-        case "gender":
-            results = searchByGender(people);
-            break;
-        case "dob":
-            results = searchByDob(people);
-            break;
-        case "height":
-            results = searchByHeight(people);
-            break;
-        case "weight":
-            results = searchByWeight(people);
-            break;
-        case "eyeColor":
-            results = searchByEyeColor(people);
-            break;
-        case "occupation":
-            results = searchByOccupation(people);
-            break;
-        default:
-            alert(`The trait ${userInput} doesn't seem to be an available.`);
-            return searchByTraits(people);
+    let confirmation = traitValid(userInput);
+    if (!confirmation) {
+        alert(`Sorry ${userInput} is not a valid trait. Please try again.`);
+        userInput = searchByTraits(people);
+    } else {
+        switch (userInput) {
+            case "gender":
+                results = searchByGender(people);
+                break;
+            case "dob":
+                results = searchByDob(people);
+                break;
+            case "height":
+                results = searchByHeight(people);
+                break;
+            case "weight":
+                results = searchByWeight(people);
+                break;
+            case "eyeColor":
+                results = searchByEyeColor(people);
+                break;
+            case "occupation":
+                results = searchByOccupation(people);
+                break;
+            default:
+                alert(
+                    `The trait ${userInput} doesn't seem to be an available.`
+                );
+                return searchByTraits(people);
+        }
     }
     return results;
 }
